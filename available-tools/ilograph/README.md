@@ -10,8 +10,7 @@ resources:
   style: plural
   icon: Networking/user.svg
 
-- name: Plant
-  subtitle: Factory floor
+- name: Factory floor
   children: 
   - name: Machine
     subtitle: Machine PLC
