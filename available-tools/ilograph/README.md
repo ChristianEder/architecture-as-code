@@ -149,4 +149,4 @@ perspectives:
 
 The perspectives (so, diagrams) generated from this YAML are interactive - you can add icons, the user can select and focus on different parts of each diagram:
 
-<video muted="" autoplay="" loop="" playsinline="" id="demo_1" src="/img/demo1_13.mp4" alt="An Ilograph diagram being used" style="width:400px"></video>
+<video muted="" autoplay="" loop="" playsinline="" id="demo_1" src="https://www.ilograph.com/img/demo1_13.mp4" alt="An Ilograph diagram being used" style="width:400px"></video>
