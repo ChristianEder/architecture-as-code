@@ -2,7 +2,7 @@
 
 [Mermaid](https://mermaid-js.github.io/mermaid/#/) lets you create diagrams and visualizations using text and code.
 
-Some solutions such as GitHub and Azure DevOps also allow you to include Mermaid-syntax diagrams directly into your Markdown-based documentation:
+Some solutions such as GitHub and Azure DevOps also allow you to include Mermaid-syntax diagrams directly into your Markdown-based documentation.
 
 You can use Mermaid to describe different views on your architecture. 
 
