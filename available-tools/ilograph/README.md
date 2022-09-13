@@ -147,10 +147,6 @@ perspectives:
     label: Upsert aggregated KPIs for machine
 ```
 
-<iframe
-  src="https://codepen.io/team/codepen/embed/preview/PNaGbb"
-  style="width:100%; height:300px;"
-></iframe>
+The perspectives (so, diagrams) generated from this YAML are interactive - you can add icons, the user can select and focus on different parts of each diagram:
 
-<iframe src="https://app.ilograph.com/@christian.eder/Architecture-As-Code-Ilograph-Sample/Overview">
-</iframe>
+<video muted="" autoplay="" loop="" playsinline="" id="demo_1" src="/img/demo1_13.mp4" alt="An Ilograph diagram being used" style="width:400px"></video>
