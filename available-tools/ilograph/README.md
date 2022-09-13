@@ -147,6 +147,6 @@ perspectives:
     label: Upsert aggregated KPIs for machine
 ```
 
-The perspectives (so, diagrams) generated from this YAML are interactive - you can add icons, the user can select and focus on different parts of each diagram:
+The perspectives (so, diagrams) generated from this YAML are interactive - you can add icons, the user can select and focus on different parts of each diagram (please note the animation shown below doesn't represent the same YAML shown above, the diagrams shown above can be explored [here](https://app.ilograph.com/@christian.eder/Architecture-As-Code-Ilograph-Sample/Overview)):
 
-<video muted="" autoplay="" loop="" playsinline="" id="demo_1" src="https://www.ilograph.com/img/demo1_13.mp4" alt="An Ilograph diagram being used" style="width:400px"></video>
+![](https://www.ilograph.com/blog/img/feature-spotlight-perspectives/three.gif)
