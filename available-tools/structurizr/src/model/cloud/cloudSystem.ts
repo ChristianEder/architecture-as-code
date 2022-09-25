@@ -22,11 +22,6 @@ export function defineCloudSystem(model: Model, user: Person) {
     oeeDatabase.tags.add('data-ingress');
     oeeDatabase.tags.add('azure-component');
 
-    const timeseriesDatabase = system.addContainer('Timeseries database', 'Used to persist raw machine telemetry', 'Azure TimeSeries Insight')!;
-    timeseriesDatabase.tags.add('database');
-    timeseriesDatabase.tags.add('data-ingress');
-    timeseriesDatabase.tags.add('azure-component');
-
     const activeDirectory = system.addContainer('Azure Active Directory', 'Used to implement user authentication', 'Azure Active Directory')!;
     activeDirectory.tags.add('azure-component');
 
@@ -36,7 +31,7 @@ export function defineCloudSystem(model: Model, user: Person) {
 
     const dashboard = system.addContainer('Dashboard', 'Visualizes OEE data and machine telemetry time series data', 'React')!;
 
-    const backend = defineBackendContainer(system, ingressQueue, oeeDatabase, timeseriesDatabase, machineMetadataTransferStorage);
+    const backend = defineBackendContainer(system, ingressQueue, oeeDatabase, machineMetadataTransferStorage);
 
     dps.uses(iotHub, 'Create device');
     iotHub.uses(ingressQueue, 'Forward enriched messages');
@@ -51,7 +46,6 @@ export function defineCloudSystem(model: Model, user: Person) {
             dps,
             ingressQueue,
             oeeDatabase,
-            timeseriesDatabase,
             activeDirectory,
             machineMetadataTransferStorage,
             dashboard,
@@ -60,7 +54,7 @@ export function defineCloudSystem(model: Model, user: Person) {
     };
 }
 
-function defineBackendContainer(system: SoftwareSystem, ingressQueue: Container, oeeDatabase: Container, timeseriesDatabase: Container, machineMetadataTransferStorage: Container) {
+function defineBackendContainer(system: SoftwareSystem, ingressQueue: Container, oeeDatabase: Container, machineMetadataTransferStorage: Container) {
     const container = system.addContainer('Backend', 'Implements OEE data aggegration and provides an API used by the dashboard', 'ASP.NET Core hosted on Azure App Service')!
 
     const ingressQueueClient = container.addComponent('Ingress Queue Client', 'Processes messages from the ingress queue')!;
@@ -77,7 +71,6 @@ function defineBackendContainer(system: SoftwareSystem, ingressQueue: Container,
 
     container.uses(machineMetadataTransferStorage, 'Periodically import machine metadata');
     ingressQueueClient.uses(ingressQueue, 'Process messages using PeekLock');
-    ingressQueueClient.uses(timeseriesDatabase, 'Persist messages');
     ingressQueueClient.uses(machineOrleansGrain, 'Forward received message');
     machineOrleansGrain.uses(oeeKpiAggregator, 'Ingest message into aggregator, providing aggregation state');
     oeeKpiAggregator.uses(dbContext, 'Upsert aggregated KPIs for machine');
