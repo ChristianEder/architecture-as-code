@@ -1,41 +1,41 @@
 import * as fs from 'fs'
 import { Container } from 'structurizr-typescript';
 import { defineModel } from '../../../available-tools/structurizr/src/model/model';
-import { IlographPerspective, IlographRelation, IlographResource, IlographWorkspace } from './ilograph/ilopgraph';
+import { RelationalPerspective, Resource, Workspace } from 'ilograph-typescript';
 
 const structurizrModel = defineModel();
 
-const ilographWorkspace = new IlographWorkspace();
+const ilographWorkspace = new Workspace();
 
 structurizrModel.workspace.model.softwareSystems.forEach(system => {
-    const systemResource = new IlographResource(system.name);
+    const systemResource = new Resource({ name: system.name });
     system.containers.forEach(container => {
-        const containerResource = new IlographResource(container.name);
+        const containerResource = new Resource({ name: container.name });
         container.components.forEach(component => {
-            const componentResource = new IlographResource(component.name);
-            containerResource.addChildResource(componentResource);
+            const componentResource = new Resource({ name: component.name });
+            containerResource.addChild(componentResource);
         });
-        systemResource.addChildResource(containerResource);
+        systemResource.addChild(containerResource);
     });
-    ilographWorkspace.addResource(systemResource);
+    ilographWorkspace.resources.push(systemResource);
 });
-structurizrModel.workspace.model.people.forEach(p => ilographWorkspace.addResource(new IlographResource(p.name)));
+structurizrModel.workspace.model.people.forEach(p => ilographWorkspace.resources.push(new Resource({ name: p.name })));
 
-const overviewPerspective = new IlographPerspective('Overview');
+const overviewPerspective = new RelationalPerspective({ name: 'Overview', relations: [] });
 structurizrModel.workspace.model.relationships
     .filter(r => r.source.type === Container.type && r.destination.type === Container.type)
     .forEach(r => {
-        overviewPerspective.addRelation(new IlographRelation(r.source.name, r.destination.name, r.description));
-});
-ilographWorkspace.addPerspective(overviewPerspective);
+        overviewPerspective.properties.relations!.push({ from: r.source.name, to: r.destination.name, label: r.description });
+    });
+ilographWorkspace.perspectives.push(overviewPerspective);
 
-const dataIngressPerspective = new IlographPerspective('Data Ingress');
+const dataIngressPerspective = new RelationalPerspective({name: 'Data Ingress'});
 structurizrModel.workspace.model.relationships
     .filter(r => r.source.tags.contains('data-ingress') && r.destination.tags.contains('data-ingress') && !r.tags.contains('implied'))
     .forEach(r => {
-        dataIngressPerspective.addRelation(new IlographRelation(r.source.name, r.destination.name, r.description));
-});
-ilographWorkspace.addPerspective(dataIngressPerspective);
+        dataIngressPerspective.properties.relations!.push({ from: r.source.name, to: r.destination.name, label: r.description });
+    });
+ilographWorkspace.perspectives.push(dataIngressPerspective);
 
 const workspaceYAML = ilographWorkspace.toYAML();
 
